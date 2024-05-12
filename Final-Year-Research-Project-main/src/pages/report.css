@@ -1,0 +1,26 @@
+/* App.css */
+
+.Reports {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Ensure the container takes the full height of the viewport */
+  }
+  
+  .title {
+    margin-bottom: 20px; /* Add some spacing between title and content */
+  }
+  
+  .content {
+    /* Add styles for content below the title */
+    margin-bottom: 20px;
+  }
+
+  .report-body {
+    font-family: Arial, sans-serif; /* Change font family as desired */
+    font-size: 16px; /* Change font size as desired */
+    color: #333; /* Change text color as desired */
+    /* Add other text styles like line-height, margin, padding, etc. */
+  }
+  
