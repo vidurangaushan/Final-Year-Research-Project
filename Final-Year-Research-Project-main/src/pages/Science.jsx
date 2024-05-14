@@ -13,6 +13,7 @@ export function Science() {
     const [loading, setLoading] = useState(true);
     const perPage = 10; // Number of quizzes per page
     const navigate = useNavigate()
+    const borderColor = "border-inherit"
 
     useEffect(()=>{
         function getSciencequiz(){           
@@ -115,24 +116,33 @@ export function Science() {
 
     <div className="content">
       {loading ? ( // Render loading message while data is being fetched
-          <div>Loading quizzes...</div>
+          <div className = "block text-xl font-semibold mb-2">Loading quizzes...</div>
       ) : (
           sciencequiz && sciencequiz.length > 0 ? (
               sciencequiz.map((s, index) => (
-                  <div className="card report-body" key={index} style={{width:1000,marginLeft:150,margin: 20,padding:10, backgroundColor: "#FAFAAA", borderRadius: 20 }}>
-                      <div>
-                          <h2>Question {index + 1}</h2>
-                          <h3>{s.question}</h3>
-                          <ul>
-                              {s.options && s.options.map((option, optionIndex) => (
-                                  <li key={optionIndex}>
-                                      <input type="radio" name={`question_${index}`} value={option} />
-                                      <label>{option}</label>
-                                  </li>
-                              ))}
-                          </ul>
-                      </div>
-                  </div>
+                <div className={`py-10 p-6 font-short-stack rounded-3xl shadow-md mb-2 bg-white ${borderColor}`} key={index}
+                style={{width:1000,marginLeft:250,marginTop:20, padding:10, backgroundColor: "#FAFAAA", borderRadius: 20 }}>
+                   <div className='mb-4'>
+                     <lable className = "block text-xl font-semibold mb-2">
+                       <h2>Question {index + 1}</h2>
+                       <h3>{s.question}</h3>
+                       </lable>
+                       <ul>
+                           {s.options && s.options.map((option, optionIndex) => (
+                               <li key={optionIndex}>
+                                 <div className="flex items-center space-x-8">
+                                 <label className="flex items-center">
+                                   <input type="radio" name={`question_${index}`} value={option} 
+                                   className="appearance-none h-4 w-4 border border-gray-700 rounded-full checked:bg-sky-500 checked:border-transparent focus:outline-none"
+                                   />
+                                   <label>{option}</label>
+                                 </label> 
+                                 </div> 
+                               </li>
+                           ))}
+                       </ul>
+                   </div>
+               </div>
               ))
           ) : (
               <div>No quizzes available.</div>
@@ -147,7 +157,7 @@ export function Science() {
       textDecoration: 'bold',
       padding: 10,
       width:150,
-      marginLeft:1000,
+      marginLeft:1200,
       border: '2px solid green', // Outline color
       cursor: 'pointer', // Change cursor to pointer on hover
       borderRadius: 20
@@ -157,7 +167,7 @@ export function Science() {
         Submit Answers
       </button>
     </div>
-   
+    <div></div>
     
       {/*Button */}
         <a href='/' 
