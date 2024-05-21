@@ -12,7 +12,7 @@ export default function MainBoxes() {
       <div className="flex flex-col items-center md:justify-center h-screen" >
         <div className="flex flex-col md:flex-row gap-4 md:gap-8">
           <Box
-            onClick={"/MathsQuiz"}
+            onClick={"/maths"}
             color={"bg-lime-400"}
             subTopic={"Click me to get some questions about mathematics"}
             topic={"Mathematics"}

@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import HeaderImg from "./../assets/images/Family/FAMILY1.png";
 import { AwesomeButton } from "react-awesome-button";
 import "react-awesome-button/dist/styles.css"
-import {English} from "../pages/English"
+import axios from 'axios';
 
 export function Reports() {
 
@@ -13,28 +13,85 @@ export function Reports() {
   const location = useLocation();
   const [scoreFromState, setScoreFromState] = useState(location.state ?.score || 0);
   const [percentage, setPercentage] = useState(0);
-  const [subjectName, setSubjectName] = useState(location.state?.subjectName || "");
+  const [subjectName] = useState(location.state?.subjectName || "");
+  const [educationalLevel, setEducationalLevel] = useState("");
+  const [recommendations, setRecommendations] = useState([]);
+
+  // const [educationalLevel, setEdu_Level] = useState(() => {
+  //   const calculatedPercentage = location.state?.percentage || 0; // Access percentage from location.state (if available)
+  //   if (percentage >= 75) {
+  //     return "Good";
+  //   } else if (percentage >= 50) {
+  //     return "Average";
+  //   } else {
+  //     return "Weak";
+  //   }
+
+  // });
+
+  //const [studentName, setStudentName] = useState(getStudentNameFromLogin()); // Replace with your logic
+  //const [studentId, setStudentId] = useState(getStudentIdFromLogin()); // Replace with your logic
+
+  const studentId = 4;
+  const studentName = "Joe"
 
   // Display the score
   //console.log("Your score:", score, "out of 10");
   useEffect(() => {
+    
     // Access and display score after component mounts
     console.log("Your score:", scoreFromState, "out of 10"); // Or display in UI
     const totalMarks = 10; // Replace with actual total marks if different
     const calculatedPercentage = Math.floor((scoreFromState / totalMarks) * 100);
     setPercentage(calculatedPercentage);
-  }, [scoreFromState]);
+
+     // Define educational level based on percentage (optional)
+  let Level;
+  if (calculatedPercentage >= 75) {
+    Level = "Good";
+  } else if (calculatedPercentage >= 50) {
+    Level = "Average";
+  } else {
+    Level = "Weak";
+  }
+  setEducationalLevel(Level);
+
+
+  const sendDataToBackend = async () => {
+    try {
+      const response = await axios.post(`http://127.0.0.1:5000/recommendations`, {
+        
+        studentId,
+        studentName,
+        subjectName,
+        educationalLevel: Level
+          
+      });
+  
+        // Handle successful response and display recommendations (if applicable)
+      //console.log(response.data);
+      setRecommendations(response.data.recommendations);
+    } catch (error) {
+      console.error(error);
+        // Handle API call errors
+    }
+  };
+  if (scoreFromState !== null) {
+    sendDataToBackend();
+  }
+
+  }, [scoreFromState,  subjectName]);
 
 
   // Define educational level based on percentage (optional)
-  let educationalLevel;
-  if (percentage >= 75) {
-    educationalLevel = "Good";
-  } else if (percentage >= 50) {
-    educationalLevel = "Average";
-  } else {
-    educationalLevel = "Weak";
-  }
+  // let Level;
+  // if (percentage >= 75) {
+  //   Level = "Good";
+  // } else if (percentage >= 50) {
+  //   Level = "Average";
+  // } else {
+  //   Level = "Weak";
+  // }
 
   return (
     
@@ -96,12 +153,27 @@ export function Reports() {
           <>
             <p>You answered {scoreFromState} out of 10 questions correctly.</p>
             <p>Your marks percentage is {percentage}%</p>
-            {educationalLevel && <p>Your educational level is: {educationalLevel}</p>} {/* Display educational level only if defined */}
-            <p>Edu_Level : {subjectName}_{educationalLevel}</p>
+            <p>Good Luck!!!</p>
+           
           </>
 
             )}
-        </div>    
+        </div> 
+        {recommendations.length > 0 && (
+          <div className="card recommendations-body" style={{
+            marginLeft: 450, marginTop: 30, marginBottom: 20, width: 600,
+            backgroundColor: "#FFFFFF", borderRadius: 20, boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)"
+            , padding: 10
+          }}>
+            <h2>Recommendations</h2>
+            <ul>
+              {recommendations.map((rec, index) => (
+                <li key={index}>We Recommend you to follow {rec}</li>
+
+              ))}
+            </ul>
+          </div>
+        )} 
       </div>
 
         <a href='/' 
@@ -113,14 +185,33 @@ export function Reports() {
           textDecoration: 'bold',
           padding: 10,
           marginBottom:30,
-          marginTop:300,
+          marginTop:150,
           marginLeft:10,
-          border: '2px solid red', // Outline color
+          border: '2px solid black', // Outline color
           cursor: 'pointer', // Change cursor to pointer on hover
           borderRadius: 20
         }} 
         onClick={()=> navigate("/")}
-       > Back to Home</a> 
+       > Back to Home</a>
+       
+
+       <a href='/Quizselection' 
+        className="btn btn-warning"
+        type="button"
+        style={{
+          color: 'white',
+          backgroundColor:'green',
+          textDecoration: 'bold',
+          padding: 10,
+          marginBottom:30,
+          marginTop:150,
+          marginLeft:50,
+          border: '1px solid black', // Outline color
+          cursor: 'pointer', // Change cursor to pointer on hover
+          borderRadius: 20
+        }} 
+        onClick={()=> navigate("/Quizselection")}
+       > Next Quiz</a>
       
 
       {/* <div>

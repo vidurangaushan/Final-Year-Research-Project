@@ -20,7 +20,7 @@ export function English() {
     useEffect(()=>{
         function getEnglishquiz(){           
           axios.get("http://127.0.0.1:5000/english").then((res)=>{
-                console.log(res);
+                //console.log(res);
                 setEnglishquiz(res.data);
                 setLoading(false);
 
@@ -63,7 +63,7 @@ export function English() {
         console.log("Your score:", score, "out of", englishquiz.length);
         //console.log("Answers submitted:", answers);
         const subjectName = "English";
-        navigate("/Reports", { state: { score , subjectName } });
+        navigate("/QuizReports", { state: { score , subjectName } });
   };  
 
   return (
@@ -83,7 +83,7 @@ export function English() {
                   <AwesomeButton
                     type="primary"
                     onReleased={() => {
-                      navigate("/selection");
+                      navigate("/Quizselection");
                     }}
                     style={{
                       "--button-primary-color": "#de2183",

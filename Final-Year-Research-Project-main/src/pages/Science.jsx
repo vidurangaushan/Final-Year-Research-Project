@@ -61,7 +61,7 @@ export function Science() {
         console.log("Your score:", score, "out of", sciencequiz.length);
         //console.log("Answers submitted:", answers);
         const subjectName = "Science";
-        navigate("/Reports", { state: { score, subjectName } });
+        navigate("/QuizReports", { state: { score, subjectName } });
   };  
 
   return (
@@ -81,7 +81,7 @@ export function Science() {
                     <AwesomeButton
                       type="primary"
                       onReleased={() => {
-                      navigate("/selection");
+                      navigate("/Quizselection");
                      }}
                       style={{
                             "--button-primary-color": "#de2183",

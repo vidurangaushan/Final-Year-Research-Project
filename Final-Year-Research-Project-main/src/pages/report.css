@@ -18,8 +18,8 @@
   }
 
   .report-body {
-    font-family: Arial, sans-serif; /* Change font family as desired */
-    font-size: 16px; /* Change font size as desired */
+    font-family:  sans-serif; /* Change font family as desired */
+    font-size: 18px; /* Change font size as desired */
     color: #333; /* Change text color as desired */
     /* Add other text styles like line-height, margin, padding, etc. */
   }

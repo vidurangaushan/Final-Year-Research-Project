@@ -61,7 +61,7 @@ export function Maths() {
         console.log("Your score:", score, "out of", mathsquiz.length);
         //console.log("Answers submitted:", answers);
         const subjectName = "Mathematics"
-        navigate("/Reports", { state: { score, subjectName } });
+        navigate("/QuizReports", { state: { score, subjectName } });
   };  
 
   return (
@@ -81,7 +81,7 @@ export function Maths() {
                   <AwesomeButton
                     type="primary"
                     onReleased={() => {
-                      navigate("/selection");
+                      navigate("/Quizselection");
                     }}
                     style={{
                       "--button-primary-color": "#de2183",
