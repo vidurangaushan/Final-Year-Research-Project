@@ -1,7 +1,12 @@
-from application import app
+from application import app , db
 from flask import Flask, jsonify, request
 from pymongo import MongoClient
 import random
+import numpy as np
+
+from flask_cors import CORS
+from application import app, db
+from Recommendation import generate_recommendations
 
 #mongodb connection
 client = MongoClient("mongodb+srv://superushan17521:Hj8k9zVx5PBUEWai@cluster0.l09ymk4.mongodb.net/")
@@ -13,6 +18,9 @@ collection_map = {
     "science": db["science_quizzes"],
     "english": db["english_quizzes"],
 }
+
+#send student report
+collectionqr = db["recommendations"]
 
 def get_quizzes(collection):
     """Fetches and converts quizzes from the provided collection."""
@@ -89,3 +97,63 @@ def get_english_quizzes():
         return jsonify({"message": "Error fetching english quizzes"}), 500  # Internal Server Error
 
 
+#get educational level
+@app.route("/recommendations", methods=["POST"])
+def handle_recommendation_request():
+    try:
+        data = request.get_json()
+        print("Data received from frontend:", data) 
+
+        student_name = data.get("studentName")
+        student_id = data.get("studentId")
+        subjectName = data.get("subjectName")
+        edu_level = data.get("educationalLevel")
+
+        # Log the information
+        print(f"Received request for {student_name} ({student_id}) - {subjectName} at {edu_level} level")
+
+        #score = data.get("scoreFromState")  # Access score for potential use
+        if not subjectName or not edu_level:
+            return jsonify({'error': 'Missing data'}), 400
+
+        relationship = "is"
+        subjectName = subjectName.title()
+
+        # Create a random user profile vector
+        user_profile = np.random.rand(100)
+
+        # Use the subject name to generate recommendations
+        addentity = add_entity_relationship(student_name, edu_level, relationship)
+        recommendations = generate_recommendations(subjectName, user_profile)
+
+        record = {
+            "studentName": student_name,
+            "studentID":student_id,
+            "subjectName": subjectName,
+            "educationalLevel": edu_level,
+            "recommendations": recommendations
+        }
+
+        # Insert the document into MongoDB
+        db.recommendations.insert_one(record)
+
+        return jsonify({"recommendations": recommendations})
+        print("Recommendations" , recommendations)
+
+    except Exception as e:
+        print(f"Error handling recommendation request: {e}")
+        return jsonify({"message": "Error generating recommendations"}), 500
+
+#get quiz report
+@app.route("/quizprofile", methods=["GET"])
+def get_quiz_data():
+    # Fetch all data from the collection
+    data = collectionqr.find({})
+
+    # Convert data to a list of dictionaries
+    data_list = [doc for doc in data]  # Iterate through each document
+    for doc in data_list:
+        doc['_id'] = str(doc['_id'])
+
+    # Return JSON response
+    return jsonify(data_list)
