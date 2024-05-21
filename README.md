@@ -1,11 +1,13 @@
 # Research Project
 
-This Project contain React+Vite Frontend with 2 Backends. 
-    1. Node + Express js backend.
-    2. Python Flask Backend.
+This Project contains a React+Vite Frontend with 2 Backends. 
 
-Prefer to use flask backend.
+    1. Node + Express js backend(Quiz_Backend).
+    
+    2. Python Flask Backend(Backend).
 
-This project use Mongodb as a database.
+I prefer to use the Flask backend.
+
+This project uses MongoDB as a database.
 
 Knowledge graph recommendation System for enhancing primary students' educational performance using quizzes.

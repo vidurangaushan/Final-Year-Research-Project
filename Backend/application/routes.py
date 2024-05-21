@@ -9,7 +9,7 @@ from application import app, db
 from Recommendation import generate_recommendations
 
 #mongodb connection
-client = MongoClient("mongodb+srv://superushan17521:Hj8k9zVx5PBUEWai@cluster0.l09ymk4.mongodb.net/")
+client = MongoClient("")
 db = client["Eduflex"]
 #collection = db["english_quizzes"]  # Assuming this is defined elsewhere
 
